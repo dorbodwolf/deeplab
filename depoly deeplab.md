@@ -3,13 +3,13 @@
 数据增强
 https://blog.csdn.net/qq_29133371/article/details/54927266
 ## 2.	Convert to tfrecord
-制作tfrecord之前，需要有指引文件将数据集分类成训练/测试/验证集。
-制作指引文件，需要将之前生成的原始图片和灰度图分别放在两个文件夹下：/volumes/massdata2/tianchi/dataset/lzimage和/volumes/massdata2/tianchi/dataset/lzlable，两个文件夹下的文件是一一对应的，文件名相同。并在文件夹/volumes/massdata2/tianchi/dataset/lzindex/下创建3个txt文件：
-	train.txt：所有训练集的文件名
-	trainval.txt：所有验证集的文件名
-	val.txt：所有测试集的文件名
-split_val_train.sh: 划分训练集和验证集
-然后利用build_voc2012_data.py转换成tfrecord格式，cmd输入指令：
+制作tfrecord之前，需要有指引文件将数据集分类成训练/测试/验证集。  
+制作指引文件，需要将之前生成的原始图片和灰度图分别放在两个文件夹下：`/volumes/massdata2/tianchi/dataset/lzimage和/volumes/massdata2/tianchi/dataset/lzlable`，两个文件夹下的文件是一一对应的，文件名相同。并在文件夹`/volumes/massdata2/tianchi/dataset/lzindex/`下创建3个txt文件：  
+*	train.txt：所有训练集的文件名  
+*	trainval.txt：所有验证集的文件名  
+*	val.txt：所有测试集的文件名  
+*   split_val_train.sh: 划分训练集和验证集  
+然后利用build_voc2012_data.py转换成tfrecord格式，cmd输入指令：  
 
 ```
 python ./build_voc2012_data.py \
@@ -28,4 +28,6 @@ python /volumes/massdata2/tianchi/models/research/deeplab/train.py \     --logto
 
 ## 4.	模型预测
 
-`python /volumes/massdata2/tianchi/models/research/deeplab/predict.py ${folder}/${fname}_${ox}_${oy}.tif ${folder}/；`
+```
+python /volumes/massdata2/tianchi/models/research/deeplab/predict.py ${folder}/${fname}_${ox}_${oy}.tif ${folder}/；
+```
