@@ -1,5 +1,10 @@
 # Deeplab V3+
 测试
+
+一套方法与
+
+ytfyfy
+
 ## 1.	深度学习环境部署完成
 数据增强
 https://blog.csdn.net/qq_29133371/article/details/54927266
