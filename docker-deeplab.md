@@ -28,4 +28,10 @@ To avoid this, run the container by specifying your user's userid:
 `$ docker run -u $(id -u):$(id -g) args...`
 
 
-deyu@AIStation:~$ sudo docker run -it  --name 'tf1.14' -u deyu --gpus all -v /home/deyu/muhaowei_data:/data  tensorflow/tensorflow:1.14.0-gpu-py3-jupyter
+`sudo docker run -it  --rm --name 'tf1.14' -u 1001  -v /home/deyu/tianchi_buildings:/data  --gpus all tensorflow/tensorflow:1.14.0-gpu-py3-jupyter`
+
+# 测试GPU可用性
+```
+import tensorflow as tf
+print('GPU',tf.test.is_gpu_available())
+```
