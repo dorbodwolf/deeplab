@@ -72,7 +72,7 @@ python /data/models-master/research/deeplab/train.py \
   --atrous_rates=18 \
   --output_stride=16 \
   --decoder_output_stride=4 \
-  --train_crop_size="512,512" \
+  --train_crop_size="513,513" \
   --train_batch_size=1 \
   --dataset="mydata" \
   --initialize_last_layer=False \
