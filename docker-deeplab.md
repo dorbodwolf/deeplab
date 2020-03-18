@@ -79,6 +79,3 @@ python /data/models-master/research/deeplab/eval.py  --logtostderr --eval_split=
 python /data/models-master/research/deeplab/vis.py     --logtostderr     --vis_split="val"     --model_variant="xception_71"     --atrous_rates=6     --atrous_rates=12     --atrous_rates=18     --output_stride=16     --decoder_output_stride=4     --vis_crop_size="512,512"     --dataset="mydata"     --colormap_type="pascal"     --checkpoint_dir='/data/models-master/research/deeplab/exp/mydata_train/lztrain/'     --vis_logdir='/data/models-master/research/deeplab/exp/mydata_train/vis/'     --dataset_dir='/data/datasets/lztfrecord1/'
 
 python /data/models-master/research/deeplab/export_model.py  --logtostderr  --checkpoint_path="/data/models-master/research/deeplab/exp/mydata_train/lztrain/model.ckpt-3000"   --atrous_rates=4  --atrous_rates=12  --atrous_rates=18  --output_stride=16  --decoder_output_stride=4  --export_path="/data/datasets/model/frozen_inference_graph.pb.pb"    --model_variant="xception_71"  --num_classes=2   --crop_size=513  --crop_size=513  --initialize_last_layer=False  --last_layers_contain_logits_only=True  --fine_tune_batch_norm=True   --inference_scales=1.0
-
-
-
