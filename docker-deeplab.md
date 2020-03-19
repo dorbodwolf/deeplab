@@ -30,7 +30,7 @@ To avoid this, run the container by specifying your user's userid:
 
 `sudo docker run -it  --rm --name 'deeplab' -u 1001 -v /home/deyu/tianchi_buildings:/data  --gpus all tensorflow/tensorflow:1.14.0-gpu-py3-jupyter`
 
-sudo docker exec -it --user root tf1.14 /bin/bash
+`sudo docker exec -it --user root tf1.14 /bin/bash`
 
 # 测试GPU可用性
 ```
@@ -67,7 +67,9 @@ vi train_utils.py  206 exclude_list = ['global_step','logits']
 python /data/models-master/research/deeplab/datasets/build_voc2012_data.py  --image_folder="/data/datasets/allimage"   --semantic_segmentation_folder="/data/datasets/alllabel"   --list_folder="/data/datasets/allindex"   --image_format="png"   --output_dir="/data/datasets/alltfrecord"
 
 # 模型训练
-export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+
+将deeplab及下面的slim包加入环境变量，但是这种方式会在下次打开时候失效：  
+`export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim`
 
 screen -L -t name -S name ./name      screen -r 回归 ctrl+a+d
 第一个name是记录日志的名字，第二个name是screen -ls 列表展示出来的名字，第三个name是需要运行的程序。
