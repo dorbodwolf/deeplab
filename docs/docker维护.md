@@ -18,5 +18,5 @@ docker默认安装在系统盘上，由于系统盘存储空间有限，长远�
 
 
 # 将容器打包成docker镜像
-首先要明白容器中生成的writable container layer与镜像初始layer的关系  
-![不同容器有各自的可写容器层](https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg])  
+首先要明白容器中生成的writable container layer与镜像初始layer的关系。简单说，中的更改只会存在于容器的生命周期，当容器删除后所有更改也会消除。  
+![不同容器有各自的可写容器层](https://docs.docker.com/storage/storagedriver/images/sharing-layers.jpg)  
