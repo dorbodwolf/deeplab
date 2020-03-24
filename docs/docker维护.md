@@ -69,12 +69,45 @@ deyu@AIStation:~$ sudo du -h /var/lib/docker --max-depth=1
 47G	/var/lib/docker/overlay2
 47G	/var/lib/docker
 ```
-迁移包括修改配置文件/etc/default/docker和建立软链两种方式，这里选择了第一种  
+迁移包括修改配置文件/etc/default/docker和建立软链两种方式.  
+
+修改配置文件的方法：    
 ```
 # Use DOCKER_OPTS to modify the daemon startup options. 
 DOCKER_OPTS="--dns 8.8.8.8 --dns 8.8.4.4 -g /HNCGDATA/docker"
 ```
+可惜不成功。  
+建立软连接的方法：  
 
-# 将容器打包成docker镜像
-
+# 打包镜像
+将容器打包成docker镜像（commit）：  
+` docker commit --author "Jade Mayer happyttey@gmail.com" -m "deeplab的高分二号影像预测" 351f5253fd30 jade/deeplab:gf-2predicts`
+推送镜像到阿里云镜像站（push）：  
+```
+deyu@AIStation:/HNCGDATA/全国各市行政区域tif影像$ docker push registry.cn-huhehaote.aliyuncs.com/jade_mayer/datacube:gf-2_predicts
+The push refers to repository [registry.cn-huhehaote.aliyuncs.com/jade_mayer/datacube]
+d901c15ba2e1: Pushing [>                                                  ]  251.8MB/13.73GB
+a085bfeda0fe: Pushed 
+4ff1bb4e2591: Pushed 
+edc859be86c4: Pushed 
+06bbc50f4a5f: Pushed 
+17ad9b8c08c8: Pushed 
+e8391f2678d2: Pushed 
+fc3b6057f093: Pushed 
+968df3551d09: Pushed 
+46540778a2be: Pushed 
+e50e81902bc4: Pushed 
+ab990e135f2c: Pushed 
+ac5349f9af57: Pushed 
+47a79b5a2369: Pushed 
+42958de951d6: Pushing [=>                                                 ]  49.44MB/1.809GB
+6effad8e07e5: Pushed 
+62cbb606ac4a: Pushed 
+8c93aa82e26a: Pushing [==================>                                ]  45.81MB/125MB
+4b9202833b21: Pushing [=======>                                           ]  33.42MB/222.7MB
+20048f8d31de: Pushing [==>                                                ]  63.89MB/1.229GB
+c890837d995f: Waiting 
+fcd654f1dc27: Waiting 
+becec4c05380: Waiti
+```
 # 访问docker中的web服务
