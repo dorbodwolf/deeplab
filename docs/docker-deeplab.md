@@ -30,6 +30,7 @@ To avoid this, run the container by specifying your user's userid:
 
 `sudo docker run -it  --rm --name 'deeplab' -u 1001 -v /home/deyu/tianchi_buildings:/data  --gpus all tensorflow/tensorflow:1.14.0-gpu-py3-jupyter`
 
+docker start tf1.14
 `sudo docker exec -it --user root tf1.14 /bin/bash`
 
 # 测试GPU可用性
@@ -52,13 +53,19 @@ conda install tensorflow-gpu==1.14
 conda install gdal
 conda install pillow
 
+新样本的制作过程
+将采样的shp文件转换为值为1的tif数据
+然后栅格计算器Con(IsNull("Subject01.tif"),0,"Subject01.tif")
+python gdal_edit.py Subject01_building_footprints.tif -unsetnodata
+
 # datasets数据更新
 构建样本数据
 /data/datasets/Image_process# bash 1clip_sampleimg.sh
 for i in *;do echo $i; gdalinfo $i|grep ^Size|cut -d' ' -f3-4|sed -e 's/ //g'|cut -d',' -f1;done 数据检查
 
 /data/datasets/allimage# ls *.png|cut -d. -f1>../all.txt
-python 2split_index.py 1168 80 数据切分代码 360 40
+python 2split_index.py 1168 80 (总数 验证数)数据切分代码 360 40
+mv train.txt trainval.txt val.txt phindex/
 
 vi /data/models-master/research/deeplab/datasets/data_generator.py 105 修改对应数据数量
 vi /data/models-master/research/deeplab/deprecated/segmentation_dataset.py 116
@@ -75,7 +82,9 @@ python /data/models-master/research/deeplab/datasets/build_voc2012_data.py  --im
 screen -L -t name -S name ./name      screen -r 回归 ctrl+a+d
 第一个name是记录日志的名字，第二个name是screen -ls 列表展示出来的名字，第三个name是需要运行的程序。
 
-screen -L -t train_10000 python /data/models-master/research/deeplab/train.py   --logtostderr   --num_clones=4   --training_number_of_steps=10000   --train_split="train"   --model_variant="xception_71"   --atrous_rates=4   --atrous_rates=12   --atrous_rates=18   --output_stride=16   --decoder_output_stride=4   --train_crop_size="513,513"   --train_batch_size=12   --dataset="mydata"   --initialize_last_layer=False   --last_layers_contain_logits_only=True   --fine_tune_batch_norm=True   --tf_initial_checkpoint='/data/models-master/research/deeplab/backbone/train_fine/model.ckpt'   --train_logdir='/data/models-master/research/deeplab/exp/alldata_train/train/'   --dataset_dir='/data/datasets/alltfrecord'
+/data/models-master/research/deeplab/exp
+mkdir train vis eval
+screen -L python /data/models-master/research/deeplab/train.py   --logtostderr   --num_clones=4   --training_number_of_steps=5000   --train_split="train"   --model_variant="xception_71"   --atrous_rates=4   --atrous_rates=12   --atrous_rates=18   --output_stride=16   --decoder_output_stride=4   --train_crop_size="513,513"   --train_batch_size=12   --dataset="mydata"   --initialize_last_layer=False   --last_layers_contain_logits_only=True   --fine_tune_batch_norm=True   --tf_initial_checkpoint='/data/models-master/research/deeplab/backbone/train_fine/model.ckpt'   --train_logdir='/data/models-master/research/deeplab/exp/alldata_train/train/'   --dataset_dir='/data/datasets/alltfrecord'
 
 python /data/models-master/research/deeplab/eval.py  --logtostderr --eval_split="val"     --model_variant="xception_71"     --atrous_rates=4    --atrous_rates=12    --atrous_rates=18    --output_stride=16    --decoder_output_stride=4    --eval_crop_size="513,513"     --dataset="mydata"     --initialize_last_layer=False    --last_layers_contain_logits_only=True    --checkpoint_dir='/data/models-master/research/deeplab/exp/alldata_train/train/'   --eval_logdir='/data/models-master/research/deeplab/exp/alldata_train/eval/'     --dataset_dir='/data/datasets/alltfrecord'
 
@@ -85,3 +94,4 @@ python /data/models-master/research/deeplab/export_model.py  --logtostderr  --ch
 
 tar -zcvf model.tar.gz frozen_inference_graph.pb
 tar -zxvf model.tar.gz
+
